@@ -109,6 +109,7 @@ create table if not exists solicitud
 id_solicitud int (10) primary key auto_increment,
 id_usuario int (10) not null,
 id_vehiculo int (10) not null,
+id_franjahoraria int (10),
 
 constraint fk_usuario_solicitud
 foreign key (id_usuario)
@@ -116,8 +117,11 @@ references usuario (id_usuario),
 
 constraint fk_vehiculo_solicitud
 foreign key (id_vehiculo)
-references vehiculo (id_vehiculo)
+references vehiculo (id_vehiculo),
 
+constraint fk_franjahoraria_solicitud
+foreign key (id_franjahoraria)
+references franjahoraria (id_franjahoraria)
 );
 
 create table if not exists franjahoraria
@@ -129,19 +133,17 @@ franja time not null
 create table if not exists cupoasignado
 (
 id_cupoasignado int (10) primary key auto_increment,
-numeroespacio int (10) not null,
-id_franjahoraria int (10) not null,
-fechaacceso date not null,
+id_espaciodeparqueo int (10),
 id_solicitud int (10) not null,
+fechaacceso time,
 
-constraint fk_franjahoraria_cupoAsignado
-foreign key (id_franjahoraria)
-references franjaHoraria (id_franjahoraria),
+constraint fk_espaciodeparqueo_cupoAsignado
+foreign key (id_espaciodeparqueo)
+references espaciodeparqueo (id_espaciodeparqueo),
 
 constraint fk_solicitud_cupoAsignado
 foreign key (id_solicitud)
 references solicitud (id_solicitud)
-
 );
 
 
