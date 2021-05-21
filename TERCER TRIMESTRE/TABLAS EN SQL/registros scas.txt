@@ -1,181 +1,3 @@
-create database SCAS;
-use SCAS;
-
-create table if not exists tipodocumento
-(
-id_tipodocumento int (10) primary key unique,
-nombre varchar (20)
-
-);
-
-
-create table if not exists personas
-(
-id_persona int (10) primary key auto_increment,
-id_tipodocumento int (10) not null,
-numerodocumento bigint (15) unique not null,
-nombres varchar (50),
-apellidos varchar (50),
-telefono bigint (20),
-correo varchar (30),
-
-constraint fk_tipoDocumento_personas
-foreign key (id_tipodocumento)
-references tipoDocumento (id_tipodocumento)
-
-);
-
-
-create table if not exists tipovehiculo
-(
-id_tipovehiculo int (10) primary key auto_increment,
-tipo text (20) not null
-);
-
-
-create table if not exists marcavehiculo
-(
-id_marcavehiculo int (10) primary key auto_increment,
-marca text (30) not null
-);
-
-
-create table if not exists opciones
-(
-id_opciones int (10) primary key auto_increment,
-opcion text (20) not null
-);
-
-
-create table if not exists vehiculo
-(
-id_vehiculo int (10) primary key auto_increment,
-id_tipovehiculo int (10) not null,
-id_marcavehiculo int (10) not null,
-color text (15),
-placa varchar(10) not null unique,
-soat text (15) not null,
-tecnomecanica text (15) not null,
-foto text (15),
-
-constraint fk_marcaVehiculo_vehiculo
-foreign key (id_marcavehiculo)
-references marcaVehiculo (id_marcavehiculo),
-
-constraint fk_tipovehiculo_vehiculo
-foreign key (id_tipovehiculo)
-references tipovehiculo (id_tipovehiculo)
-);
-
-
-create table if not exists cargoempleado
-(
-id_cargoempleado int (10) primary key auto_increment,
-cargo text (20) not null
-);
-
-create table if not exists usuario
-(
-id_usuario int (10) primary key auto_increment,
-id_persona int (10) not null,
-nombre_user varchar (20) not null,
-password_user varchar (20) not null,
-
-constraint fk_personas_usuario
-foreign key (id_persona)
-references personas (id_persona)
-);
-
-create table if not exists empleado
-(
-id_empleado int (10) primary key auto_increment,
-id_cargoempleado int (10) not null,
-id_usuario int (10) not null,
-
-constraint fk_cargoempleado_empleado
-foreign key (id_cargoempleado)
-references cargoempleado (id_cargoempleado),
-
-constraint fk_usuario_empleado
-foreign key (id_usuario)
-references usuario (id_usuario)
-
-);
-
-
-
-create table if not exists solicitud
-(
-id_solicitud int (10) primary key auto_increment,
-id_usuario int (10) not null,
-id_vehiculo int (10) not null,
-
-constraint fk_usuario_solicitud
-foreign key (id_usuario)
-references usuario (id_usuario),
-
-constraint fk_vehiculo_solicitud
-foreign key (id_vehiculo)
-references vehiculo (id_vehiculo)
-
-);
-
-create table if not exists franjahoraria
-(
-id_franjahoraria int (10) primary key auto_increment,
-franja time not null
-);
-
-create table if not exists cupoasignado
-(
-id_cupoasignado int (10) primary key auto_increment,
-numeroespacio int (10) not null,
-id_franjahoraria int (10) not null,
-fechaacceso date not null,
-id_solicitud int (10) not null,
-
-constraint fk_franjahoraria_cupoAsignado
-foreign key (id_franjahoraria)
-references franjaHoraria (id_franjahoraria),
-
-constraint fk_solicitud_cupoAsignado
-foreign key (id_solicitud)
-references solicitud (id_solicitud)
-
-);
-
-
-create table if not exists registro
-(
-id_registro int (10) primary key auto_increment unique,
-fecha_registro date not null,
-horaingreso time not null,
-horasalida time,
-id_usuario int (10) not null,
-id_vehiculo int (10) not null,
-id_cupoasignado int (10) not null,
-
-constraint fk_usuario_registro
-foreign key (id_usuario)
-references usuario (id_usuario),
-
-constraint fk_vehiculo_registro
-foreign key (id_vehiculo)
-references vehiculo (id_vehiculo),
-
-constraint fk_cupoAsignado_registro
-foreign key (id_cupoasignado)
-references cupoAsignado (id_cupoasignado)
-
-);
-
-create table if not exists espaciodeparqueo
-(
-id_espaciodeparqueo int (10) primary key auto_increment,
-numero int (10) 
-);
-
--- Proyecto formativo - Entrega 1.
 
 insert into tipodocumento (Id_tipodocumento, nombre)
 values (1,'Cedula de Ciudadania'),
@@ -245,6 +67,11 @@ values (1,1784654534,'juan josŽ','berrocal herrero',7516812532,'jose@gmail.com'
 insert into personas(id_tipodocumento, numerodocumento, nombres, apellidos, telefono, correo)
 values (1,2764754534,'sandra','lopez cruz',4566761500,'sandra@gmail.com');
 
+insert into  opciones (opcion)
+values ('Si'), ('No');
+
+insert into  franjahoraria (franja)
+values ('Mañana'), ('Tarde'), ('Noche');
 
 alter table cupoasignado
 drop constraint fk_solicitud_cupoAsignado;
@@ -308,18 +135,12 @@ add	constraint fk_franjahoraria_solicitud
 	references franjahoraria (id_franjahoraria);
 
 
+insert into cupoasignado(id_espaciodeparqueo, id_solicitud, fechaacceso)
+values (1,1,'12:23:33');
+
+
+insert into registro(fecha_registro, horaingreso, horasalida, id_cupoasignado)
+values ('03-03-2020','06:00:33','12:00:33',1);    
     
-    
-    
-
-
-               
-     
-               
-	
-
-
-
-		
-
-
+insert into registro(fecha_registro, horaingreso, id_cupoasignado)
+values ('2020-03-04','06:02:33','12:04:33',3);   
