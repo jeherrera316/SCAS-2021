@@ -40,13 +40,6 @@ marca text (30) not null
 );
 
 
-create table if not exists opciones
-(
-id_opciones int (10) primary key auto_increment,
-opcion text (20) not null
-);
-
-
 create table if not exists vehiculo
 (
 id_vehiculo int (10) primary key auto_increment,
@@ -102,6 +95,12 @@ references usuario (id_usuario)
 
 );
 
+create table if not exists franjahoraria
+(
+id_franjahoraria int (10) primary key auto_increment,
+Hora_entrada time not null,
+Hora_salida time not null
+);
 
 
 create table if not exists solicitud
@@ -124,10 +123,10 @@ foreign key (id_franjahoraria)
 references franjahoraria (id_franjahoraria)
 );
 
-create table if not exists franjahoraria
+create table if not exists espaciodeparqueo
 (
-id_franjahoraria int (10) primary key auto_increment,
-franja time not null
+id_espaciodeparqueo int (10) primary key auto_increment,
+numero int (10) 
 );
 
 create table if not exists cupoasignado
@@ -135,7 +134,7 @@ create table if not exists cupoasignado
 id_cupoasignado int (10) primary key auto_increment,
 id_espaciodeparqueo int (10),
 id_solicitud int (10) not null,
-fechaacceso time,
+fechaacceso date,
 
 constraint fk_espaciodeparqueo_cupoAsignado
 foreign key (id_espaciodeparqueo)
@@ -144,6 +143,7 @@ references espaciodeparqueo (id_espaciodeparqueo),
 constraint fk_solicitud_cupoAsignado
 foreign key (id_solicitud)
 references solicitud (id_solicitud)
+
 );
 
 
@@ -171,31 +171,30 @@ references cupoAsignado (id_cupoasignado)
 
 );
 
-create table if not exists espaciodeparqueo
-(
-id_espaciodeparqueo int (10) primary key auto_increment,
-numero int (10) 
-);
 
--- Proyecto formativo - Entrega 1.
+-- Insercion datos tabla catalogo tipodocumento
 
 insert into tipodocumento (Id_tipodocumento, nombre)
 values (1,'Cedula de Ciudadania'),
- 	(2,'Tarjeta de Identidad'),
+ 	   (2,'Tarjeta de Identidad'),
        (3,'Pasaporte');
 
+-- Insercion datos tabla catalogo tipovehiculo 
 
 insert into tipovehiculo (Id_tipovehiculo, tipo)
 values	(1,'Motocicleta'),
        (2,'Automovil'),
        (3,'Bicicleta');
        
-       
+-- Insercion datos tabla catalogo cargoempleado
+
 insert into cargoempleado (Id_cargoempleado, cargo)
 values	(1,'Administrativo'),
        (2,'Vigilante');
        
-       
+	
+-- Insercion datos tabla catalogo marcavehiculo 
+
 insert into marcavehiculo (Id_marcavehiculo, marca)
 values	(1,'suzuki'),
         (2,'bajaj'),
@@ -223,6 +222,8 @@ values	(1,'suzuki'),
         (24,'canyon'),
         (25,'optimus');
         
+-- Insercion de datos a la tabla personas
+
 insert into personas(id_tipodocumento, numerodocumento, nombres, apellidos, telefono, correo)
 values (1,1784654534,'juan josŽ','berrocal herrero',7516812532,'jose@gmail.com'),
 		(1,7813412410,'miguel angel','abril igo',6838781709,'miguel@gmail.com'),
@@ -242,85 +243,17 @@ values (1,1784654534,'juan josŽ','berrocal herrero',7516812532,'jose@gmail.com'
 		(1,6166775382,'jose ignacio','lemos arrizabalaga',8617339775,'ignacio@gmail.com'),
 		(2,818891718,'antonio ','canovas giron',6991046203,'antonioc@gmail.com'),
 		(1,785189642,'jose antonio', 'suero mateo',8692824221,'antonio@gmail.com'),
-		(1,7510204092,'andrea', 'seijas naranjo',8268361500,'andreac@gmail.com');
-        
-insert into personas(id_tipodocumento, numerodocumento, nombres, apellidos, telefono, correo)
-values (1,2764754534,'sandra','lopez cruz',4566761500,'sandra@gmail.com');
-
-
-alter table cupoasignado
-drop constraint fk_solicitud_cupoAsignado;
-
-alter table cupoasignado drop column id_solicitud;
+		(1,7510204092,'andrea', 'seijas naranjo',8268361500,'andreac@gmail.com'),
+		(1,2764754534,'sandra','lopez cruz',4566761500,'sandra@gmail.com');
+               
+     
+-- Insercion de datos a la tabla espaciodeparqueo
 
 insert into espaciodeparqueo (numero)
 values (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),
-		(11),(12),(13),(14),(15),(16),(17),(18),(19),(20);
-        
-alter table cupoasignado
-drop column numeroespacio;
+		(11),(12),(13),(14),(15),(16),(17),(18),(19),(20);               
 
-alter table cupoasignado
-drop column fechaacceso;
-
-alter table cupoasignado
-add id_espaciodeparqueo int (10);
-
-alter table cupoasignado
-add	fechaacceso time;
-
-alter table cupoasignado
-add	id_solicitud int (10);
-
-alter table registro
-drop constraint fk_usuario_registro;
-
-alter table registro
-drop constraint fk_vehiculo_registro;
-
-alter table registro
-drop column id_usuario;
-
-alter table cupoasignado
-drop column id_franjahoraria;
-
-alter table cupoasignado
-drop  constraint fk_franjahoraria_cupoAsignado;
-
-
-
--- se agrega constraint el las tablas cupoasignado, 
-
-alter table cupoasignado
-add	constraint fk_espaciodeparqueo_cupoAsignado
-	foreign key (id_espaciodeparqueo)
-	references espaciodeparqueo (id_espaciodeparqueo);
-    
-alter table cupoasignado
-add	constraint fk_solicitud_cupoAsignado
-	foreign key (id_solicitud)
-	references solicitud (id_solicitud);
-    
-alter table solicitud
-add column id_franjahoraria int (10);
-
-alter table solicitud
-add	constraint fk_franjahoraria_solicitud
-	foreign key (id_franjahoraria)
-	references franjahoraria (id_franjahoraria);
-
-
-    
-    
-    
-
-
-               
-     
-               
-	
-
-
+-- Orden de importar tablas: usuario, vehiculo, franjahoraria, empleado, solicitud, cupoasignado, registro
 
 		
 

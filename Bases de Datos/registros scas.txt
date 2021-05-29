@@ -62,10 +62,11 @@ values (1,1784654534,'juan josŽ','berrocal herrero',7516812532,'jose@gmail.com'
 		(1,6166775382,'jose ignacio','lemos arrizabalaga',8617339775,'ignacio@gmail.com'),
 		(2,818891718,'antonio ','canovas giron',6991046203,'antonioc@gmail.com'),
 		(1,785189642,'jose antonio', 'suero mateo',8692824221,'antonio@gmail.com'),
-		(1,7510204092,'andrea', 'seijas naranjo',8268361500,'andreac@gmail.com');
+		(1,7510204092,'andrea', 'seijas naranjo',8268361500,'andreac@gmail.com'),
+		(1,2764754534,'sandra','lopez cruz',4566761500,'sandra@gmail.com');
         
 insert into personas(id_tipodocumento, numerodocumento, nombres, apellidos, telefono, correo)
-values (1,2764754534,'sandra','lopez cruz',4566761500,'sandra@gmail.com');
+values ;
 
 insert into  opciones (opcion)
 values ('Si'), ('No');
@@ -73,29 +74,12 @@ values ('Si'), ('No');
 insert into  franjahoraria (franja)
 values ('Mañana'), ('Tarde'), ('Noche');
 
-alter table cupoasignado
-drop constraint fk_solicitud_cupoAsignado;
-
-alter table cupoasignado drop column id_solicitud;
 
 insert into espaciodeparqueo (numero)
 values (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),
 		(11),(12),(13),(14),(15),(16),(17),(18),(19),(20);
         
-alter table cupoasignado
-drop column numeroespacio;
 
-alter table cupoasignado
-drop column fechaacceso;
-
-alter table cupoasignado
-add id_espaciodeparqueo int (10);
-
-alter table cupoasignado
-add	fechaacceso time;
-
-alter table cupoasignado
-add	id_solicitud int (10);
 
 alter table registro
 drop constraint fk_usuario_registro;
@@ -115,25 +99,7 @@ drop  constraint fk_franjahoraria_cupoAsignado;
 
 
 -- se agrega constraint el las tablas cupoasignado, 
-
-alter table cupoasignado
-add	constraint fk_espaciodeparqueo_cupoAsignado
-	foreign key (id_espaciodeparqueo)
-	references espaciodeparqueo (id_espaciodeparqueo);
     
-alter table cupoasignado
-add	constraint fk_solicitud_cupoAsignado
-	foreign key (id_solicitud)
-	references solicitud (id_solicitud);
-    
-alter table solicitud
-add column id_franjahoraria int (10);
-
-alter table solicitud
-add	constraint fk_franjahoraria_solicitud
-	foreign key (id_franjahoraria)
-	references franjahoraria (id_franjahoraria);
-
 
 insert into cupoasignado(id_espaciodeparqueo, id_solicitud, fechaacceso)
 values (1,1,'12:23:33');
@@ -144,3 +110,5 @@ values ('03-03-2020','06:00:33','12:00:33',1);
     
 insert into registro(fecha_registro, horaingreso, id_cupoasignado)
 values ('2020-03-04','06:02:33','12:04:33',3);   
+
+update franjahoraria set Hora_salida = '12:00:00' where id_franjahoraria = 3
