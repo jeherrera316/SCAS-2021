@@ -256,3 +256,11 @@ values (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),
 -- Orden de importar tablas: usuario, vehiculo, franjahoraria, empleado, solicitud, cupoasignado, registro
 -- actualizar usuarios 
 
+<<<<<<< HEAD
+SET SQL_SAFE_UPDATES = 0;
+
+		
+
+
+=======
+>>>>>>> 984b65d63a5334d1b27238f2fd1ae9a27cff80b7

@@ -1,0 +1,51 @@
+body{
+    background-image: url(IMG/fond.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    }
+    
+#Titulo{
+    text-align: center;
+    margin-top: 100px;
+    font-size: 50px;
+    font-family:'Times New Roman', Times, serif;
+    
+}
+#subtitulo{
+    text-align: center;
+    font-size: 20px;
+    font-family:'Times New Roman', Times, serif;
+    margin-top: -40px;
+}
+#input{
+    width: 500px;
+    height: 30px;
+    margin-left: 31%;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+#boton{
+    width: 150px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    margin-top: 35px;
+    margin-left: 44%;
+    cursor: pointer;
+}
+#Aviso{
+    color: blue;
+    text-align: center;
+}
+
+#pie{
+    text-align: center;
+    margin-top: 100px;
+}
+#logo{
+    height: 100px;
+    margin-left: 85%;
+    margin-top: -100px;
+}
